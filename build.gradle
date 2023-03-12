@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group 'me.onlyfire.yaml-file-translator'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation "com.deepl.api:deepl-java:1.1.0"
+}
+
+application {
+    mainClassName = 'me.onlyfire.translator.TranslatorMain'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': '${application.mainClassName}',
+                "Multi-Release": true
+    }
+}
