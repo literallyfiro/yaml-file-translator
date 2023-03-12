@@ -16,8 +16,8 @@ public class YamlTranslator {
         this.translator = translator;
     }
 
-    public void translateMap(Map<String, Object> map, String lang_to_translate) {
-        translateMap(map, lang_to_translate, new AtomicInteger(countKeys(map)), "");
+    public void translateMap(Map<String, Object> map, String langToTranslate) {
+        translateMap(map, langToTranslate, new AtomicInteger(countKeys(map)), "");
     }
 
     @SuppressWarnings("unchecked")
