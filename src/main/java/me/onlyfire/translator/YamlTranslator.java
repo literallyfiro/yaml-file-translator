@@ -16,6 +16,7 @@ public class YamlTranslator {
         this.translator = translator;
     }
 
+    @SuppressWarnings("unchecked")
     public void translateMap(Map<String, Object> map, String lang_to_translate) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             try {
