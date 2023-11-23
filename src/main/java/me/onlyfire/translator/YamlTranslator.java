@@ -20,7 +20,7 @@ public class YamlTranslator {
         translateMap(map, langToTranslate, new AtomicInteger(countKeys(map)), "");
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void translateMap(Map<String, Object> map, String langToTranslate, AtomicInteger countKeys, String currentKeyPath) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             try {
@@ -34,8 +34,8 @@ public class YamlTranslator {
                     // value is a map, call translateMap recursively
                     Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
                     translateMap(innerMap, langToTranslate, countKeys, fullKeyPath);
-                } else if (entry.getValue() instanceof List<?> && ((List<?>) entry.getValue()).get(0) instanceof String) {
-                    var translated = translateList((List<String>) entry.getValue(), langToTranslate);
+                } else if (entry.getValue() instanceof List) {
+                    var translated = translateList((List) entry.getValue(), langToTranslate);
                     map.put(entry.getKey(), translated);
                 }
 
@@ -45,14 +45,28 @@ public class YamlTranslator {
         }
     }
 
-    private List<String> translateList(List<String> list, String langToTranslate)
-            throws DeepLException, InterruptedException {
-        var translated_list = translator.translateText(list, null, langToTranslate);
-        return translated_list.stream().map(TextResult::getText).collect(Collectors.toList());
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private List translateList(List list, String langToTranslate) throws DeepLException, InterruptedException {
+        if (list.isEmpty()) return list;
+
+        for (int i = 0; i < list.size(); i++) {
+            Object item = list.get(i);
+            if (item == null) continue;
+
+            if (item instanceof Map) {
+                translateMap((Map<String, Object>) list.get(i), langToTranslate);
+                continue;
+            }
+
+            if (item instanceof String) {
+                list.set(i, translateString((String) list.get(i), langToTranslate));
+            }
+        }
+
+        return list;
     }
 
-    private String translateString(String string, String langToTranslate)
-            throws DeepLException, InterruptedException {
+    private String translateString(String string, String langToTranslate) throws DeepLException, InterruptedException {
         if (string.isEmpty()) return string;
         return translator.translateText(string, null, langToTranslate).getText();
     }
