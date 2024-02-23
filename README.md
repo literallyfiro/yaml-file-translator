@@ -10,4 +10,4 @@ If you want to translate your yaml files on the fly, you can use this program.
 - Clone this repository with ``git clone https://github.com/ImOnlyFire/yaml-file-translator.git && cd yaml-file-translator``
 - Compile the project with ``gradle shadowJar``
 - Your compiled program will be located at ``build/libs/file-translator-{version}-SNAPSHOT-all.jar``
-- Have fun :D
+- Have fun
