@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.1'
-    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'commons-cli:commons-cli:1.9.0'
     implementation "com.deepl.api:deepl-java:1.6.0"
 }
 
